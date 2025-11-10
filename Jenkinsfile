@@ -32,7 +32,10 @@ pipeline {
             steps {
                 script {
                     sh 'docker-compose -f docker-compose-jenkins.yml down || true'
-                    sh 'docker-compose -f docker-compose-jenkins.yml up -d --build'
+                    // Build the image manually first
+                    sh 'docker build -t blog-app-jenkins .'
+                    // Then start without --build flag
+                    sh 'docker-compose -f docker-compose-jenkins.yml up -d'
                 }
             }
         }
