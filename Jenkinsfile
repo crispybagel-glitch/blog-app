@@ -30,6 +30,7 @@ pipeline {
                 script {
                     sh 'docker-compose -f docker-compose-jenkins.yml down || true'
                     sh 'docker build -t blog-app-jenkins .'
+            sh 'docker rm -f blog-app-jenkins || true'
                     sh 'docker-compose -f docker-compose-jenkins.yml up -d'
                 }
             }
