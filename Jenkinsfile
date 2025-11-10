@@ -3,6 +3,8 @@ pipeline {
     
     environment {
         DOCKER_HOST = 'unix:///var/run/docker.sock'
+        SUPABASE_URL = 'https://prhsliwzscnekhpbnwnq.supabase.co'
+        SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InByaHNsaXd6c2NuZWtocGJud25xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3MDI3OTksImV4cCI6MjA3ODI3ODc5OX0.4XwTD491YO55bad5--ywf5RJqnGZuEkULkluaHfVneU'
     }
     
     stages {
@@ -13,12 +15,24 @@ pipeline {
             }
         }
         
+        stage('Create Environment File') {
+            steps {
+                script {
+                    sh '''
+                    cat > .env << EOF
+                    VITE_SUPABASE_URL=${SUPABASE_URL}
+                    VITE_SUPABASE_ANON_KEY=${SUPABASE_KEY}
+                    EOF
+                    '''
+                }
+            }
+        }
+        
         stage('Build and Deploy') {
             steps {
                 script {
-                    // Use docker compose (with space) instead of docker-compose
-                    sh 'docker compose -f docker-compose-jenkins.yml down || true'
-                    sh 'docker compose -f docker-compose-jenkins.yml up -d --build'
+                    sh 'docker-compose -f docker-compose-jenkins.yml down || true'
+                    sh 'docker-compose -f docker-compose-jenkins.yml up -d --build'
                 }
             }
         }
