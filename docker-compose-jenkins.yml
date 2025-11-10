@@ -1,14 +1,11 @@
 services:
   blog-app-jenkins:
-    image: blog-app-jenkins  # Use pre-built image instead of building
+    image: blog-app-jenkins
     ports:
       - "3001:5173"
     environment:
       - NODE_ENV=production
     env_file:
       - .env
-    volumes:
-      - ./:/app
-      - /app/node_modules
     restart: unless-stopped
     container_name: blog-app-jenkins
