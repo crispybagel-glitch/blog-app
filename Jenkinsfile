@@ -16,8 +16,9 @@ pipeline {
         stage('Build and Deploy') {
             steps {
                 script {
-                    sh 'docker-compose -f docker-compose-jenkins.yml down || true'
-                    sh 'docker-compose -f docker-compose-jenkins.yml up -d --build'
+                    // Use docker compose (with space) instead of docker-compose
+                    sh 'docker compose -f docker-compose-jenkins.yml down || true'
+                    sh 'docker compose -f docker-compose-jenkins.yml up -d --build'
                 }
             }
         }
