@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
   blog-app-jenkins:
-    build: .
+    image: blog-app-jenkins  # Use pre-built image instead of building
     ports:
       - "3001:5173"
     environment:
